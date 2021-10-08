@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: ${DB_URL:jdbc:postgresql://${DB_HOST:ec2-34-249-247-7.eu-west-1.compute.amazonaws.com}:${DB_PORT:5432}/${DB_NAME:dflspd6luhq4ld}}
+    username: ${DB_USERNAME:dflspd6luhq4ld}
+    password: ${DB_PASSWORD:9ea28d01b61d6502d176405c471b2a175746bc23a102370b7cde0e189af47cea}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
+  liquibase:
+    change-log: classpath:db/db.changelog-master.yaml
+  jackson:
+    default-property-inclusion : non_null
+    serialization:
+      WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false

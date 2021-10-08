@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      runAlways: false
+      id: 20210907_00
+      author: Vasiliy Azarov
+      changes:
+        - sqlFile:
+            path: changelog/000_initial.sql
+            enchoding: utf8
+            relativeToChangelogFile: true
