@@ -1,19 +1,20 @@
 package com.epam.estart.service;
 
+import com.epam.estart.dto.AbstractDTO;
 import com.epam.estart.entity.AbstractEntity;
 import java.util.Optional;
 
-public interface CommonService<I, E extends AbstractEntity<?>> {
+public interface CommonService<I, M extends AbstractDTO<I>, E extends AbstractEntity<?>> {
 
-  E create(E entity);
+  M create(M entity);
 
-  E getById(I id);
+  M getById(I id);
 
-  void update(E entity);
+  void update(M entity);
 
-  void delete(E entity);
+  void delete(M entity);
 
   void deleteById(I id);
 
-  Optional<E> getOptionalById(I id);
+  Optional<M> getOptionalById(I id);
 }

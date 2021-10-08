@@ -8,3 +8,12 @@ databaseChangeLog:
             path: changelog/000_initial.sql
             enchoding: utf8
             relativeToChangelogFile: true
+  - changeSet:
+      runAlways: false
+      id: 20210908_001
+      author: Vladislav Borisov
+      changes:
+        - sqlFile:
+            path: changelog/001_add_project_table.sql
+            enchoding: utf8
+            relativeToChangelogFile: true

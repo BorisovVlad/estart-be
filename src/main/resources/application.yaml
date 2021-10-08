@@ -15,7 +15,8 @@ spring:
   liquibase:
     change-log: classpath:db/db.changelog-master.yaml
   jackson:
-    default-property-inclusion : non_null
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non_null
     serialization:
       WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
     deserialization:

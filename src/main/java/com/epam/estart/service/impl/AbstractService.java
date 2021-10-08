@@ -1,18 +1,24 @@
 package com.epam.estart.service.impl;
 
-
+import com.epam.estart.dto.AbstractDTO;
 import com.epam.estart.entity.AbstractEntity;
 import com.epam.estart.repository.AbstractRepository;
 import com.epam.estart.service.CommonService;
 import java.util.Optional;
+import lombok.Setter;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public abstract class AbstractService<I,
-    E extends AbstractEntity<I>, R extends AbstractRepository<E, I>> implements CommonService<I, E> {
+public abstract class AbstractService<I, D extends AbstractDTO<I>,
+    E extends AbstractEntity<I>, R extends AbstractRepository<E, I>> implements CommonService<I, D, E> {
 
   protected final R repository;
+
+  @Setter
+  @Autowired
+  protected ModelMapper modelMapper;
 
   @Autowired
   AbstractService(R repository) {
@@ -21,26 +27,28 @@ public abstract class AbstractService<I,
 
   public abstract Class<E> getEntityClass();
 
+  public abstract Class<D> getDTOClass();
+
   @Override
-  public E create(E entity) {
-    return repository.save(entity);
+  public D create(D entity) {
+    return modelMapper.map(repository.save(modelMapper.map(entity, getEntityClass())), getDTOClass());
   }
 
   @Override
   @Transactional(readOnly = true)
-  public E getById(I id) {
+  public D getById(I id) {
     return getOptionalById(id).orElseThrow(
         () -> new IllegalArgumentException("Entity with id:" + id + " was not found."));
   }
 
   @Override
-  public void update(E entity) {
-    repository.save(entity);
+  public void update(D entity) {
+    repository.save(modelMapper.map(entity, getEntityClass()));
   }
 
   @Override
-  public void delete(E entity) {
-    repository.delete(entity);
+  public void delete(D entity) {
+    repository.delete(modelMapper.map(entity, getEntityClass()));
   }
 
   @Override
@@ -49,9 +57,9 @@ public abstract class AbstractService<I,
   }
 
   @Override
-  public Optional<E> getOptionalById(I id) {
-    return Optional.ofNullable(repository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Entity with id:" + id + " was not found.")));
+  public Optional<D> getOptionalById(I id) {
+    return repository.findById(id)
+        .map(entity -> modelMapper.map(entity, getDTOClass()));
   }
 
   public boolean existsById(I id) {
