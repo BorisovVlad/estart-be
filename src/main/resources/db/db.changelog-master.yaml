@@ -26,12 +26,3 @@ databaseChangeLog:
             path: changelog/002_add_user_table.sql
             enchoding: utf8
             relativeToChangelogFile: true
-  - changeSet:
-      runAlways: false
-      id: 20210909_003
-      author: Vladislav Borisov
-      changes:
-        - sqlFile:
-            path: changelog/003_change_type_of_id.sql
-            enchoding: utf8
-            relativeToChangelogFile: true

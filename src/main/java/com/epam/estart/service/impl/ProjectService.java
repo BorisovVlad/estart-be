@@ -6,6 +6,7 @@ import com.epam.estart.entity.ProjectEntity;
 import com.epam.estart.entity.ProjectTagEntity;
 import com.epam.estart.entity.VacantPlacesEntity;
 import com.epam.estart.repository.ProjectRepository;
+import com.epam.estart.service.DateSupplier;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -16,15 +17,17 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
   private final ProjectTagService projectTagService;
   private final VacantPlacesService vacantPlacesService;
   private final MemberOnBoardService memberOnBoardService;
+  private final DateSupplier dateSupplier;
 
 
   ProjectService(ProjectRepository repository, ProjectTagService projectTagService,
                  VacantPlacesService vacantPlacesService,
-                 MemberOnBoardService memberOnBoardService) {
+                 MemberOnBoardService memberOnBoardService, DateSupplier dateSupplier) {
     super(repository);
     this.projectTagService = projectTagService;
     this.vacantPlacesService = vacantPlacesService;
     this.memberOnBoardService = memberOnBoardService;
+    this.dateSupplier = dateSupplier;
   }
 
   @Override
@@ -39,12 +42,13 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
 
   @Override
   public Project create(Project project) {
-    ProjectEntity projectEntity = modelMapper.map(project, ProjectEntity.class);
+    ProjectEntity projectEntity = modelMapper.map(project.setCreatedAt(dateSupplier.current()), ProjectEntity.class);
     projectEntity = repository.save(projectEntity);
-    projectTagService.createAllByProjectEntity(projectEntity);
-    vacantPlacesService.createAllByProjectEntity(projectEntity);
-    memberOnBoardService.createAllByProjectEntity(projectEntity);
-    return getById(projectEntity.getId());
+    projectEntity.setTags(projectTagService.createAllByProjectEntity(project.setId(projectEntity.getId())))
+        .setVacantPlaces(vacantPlacesService.createAllByProjectEntity(project.setId(projectEntity.getId())))
+        .setMembersOnBoard(memberOnBoardService.createAllByProjectEntity(project.setId(projectEntity.getId())));
+
+    return modelMapper.map(repository.save(projectEntity), Project.class);
   }
 
   public Project updateAndReturn(Project project) {
@@ -56,7 +60,6 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
     projectEntity.setName(project.getName())
         .setStage(project.getStage())
         .setAboutProject(projectEntity.getAboutProject())
-        .setClosedAt(project.getClosedAt())
         .setTags(getNewProjectTags(project, projectEntity))
         .setVacantPlaces(getNewVacantPlaces(project, projectEntity))
         .setMembersOnBoard(getNewMembersOnBoard(project, projectEntity));
@@ -71,9 +74,8 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
         .collect(Collectors.toSet());
     oldProjectTags.removeAll(newProjectTags);
     projectTagService.removeAll(oldProjectTags);
-    projectTagService.createAllByProjectEntity(projectEntity.setTags(newProjectTags));
 
-    return newProjectTags;
+    return projectTagService.createAllByProjectEntity(project.setId(projectEntity.getId()));
   }
 
   private Set<VacantPlacesEntity> getNewVacantPlaces(Project project, ProjectEntity projectEntity) {
@@ -83,9 +85,8 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
         .collect(Collectors.toSet());
     oldVacantPlaces.removeAll(newVacantPlaces);
     vacantPlacesService.removeAll(oldVacantPlaces);
-    vacantPlacesService.createAllByProjectEntity(projectEntity.setVacantPlaces(newVacantPlaces));
 
-    return newVacantPlaces;
+    return vacantPlacesService.createAllByProjectEntity(project.setId(projectEntity.getId()));
   }
 
   private Set<MemberOnBoardEntity> getNewMembersOnBoard(Project project, ProjectEntity projectEntity) {
@@ -95,8 +96,7 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
         .collect(Collectors.toSet());
     oldMembersOnBoard.removeAll(newMembersOnBoard);
     memberOnBoardService.removeAll(oldMembersOnBoard);
-    memberOnBoardService.createAllByProjectEntity(projectEntity.setMembersOnBoard(newMembersOnBoard));
 
-    return newMembersOnBoard;
+    return memberOnBoardService.createAllByProjectEntity(project.setId(projectEntity.getId()));
   }
 }

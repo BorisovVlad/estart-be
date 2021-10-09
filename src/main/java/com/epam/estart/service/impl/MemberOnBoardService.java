@@ -1,6 +1,7 @@
 package com.epam.estart.service.impl;
 
 import com.epam.estart.dto.MemberOnBoard;
+import com.epam.estart.dto.Project;
 import com.epam.estart.entity.MemberOnBoardEntity;
 import com.epam.estart.entity.ProjectEntity;
 import com.epam.estart.repository.MemberOnBoardRepository;
@@ -24,10 +25,11 @@ public class MemberOnBoardService
     return MemberOnBoard.class;
   }
 
-  public void createAllByProjectEntity(ProjectEntity projectEntity) {
-    Set<MemberOnBoardEntity> membersOnBoard = projectEntity.getMembersOnBoard();
-    membersOnBoard.forEach(memberOnBoardEntity -> memberOnBoardEntity.setProjectId(projectEntity.getId()));
+  public Set<MemberOnBoardEntity> createAllByProjectEntity(Project project) {
+    Set<MemberOnBoardEntity> membersOnBoard = modelMapper.map(project, ProjectEntity.class).getMembersOnBoard();
+    membersOnBoard.forEach(memberOnBoardEntity -> memberOnBoardEntity.setProjectId(project.getId()));
     repository.saveAll(membersOnBoard);
+    return membersOnBoard;
   }
 
   public void removeAll(Set<MemberOnBoardEntity> membersOnBoard) {

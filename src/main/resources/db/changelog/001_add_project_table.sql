@@ -1,6 +1,3 @@
-set
-search_path = public;
-
 CREATE TABLE projects
 (
     id            UUID primary key,
@@ -8,27 +5,26 @@ CREATE TABLE projects
     name          text not null,
     stage         text not null,
     about_project text,
-    created_at    TIMESTAMP WITHOUT TIME ZONE,
-    closed_at     TIMESTAMP WITHOUT TIME ZONE
+    created_at    TIMESTAMP WITHOUT TIME ZONE
 );
 
 create table member_on_board
 (
-    id         bigint primary key,
+    id         bigserial primary key,
     project_id uuid references projects (id),
-    role       text not null
+    role       text
 );
 
 create table vacant_places
 (
-    id         bigint primary key,
+    id         bigserial primary key,
     project_id uuid references projects (id),
-    role       text not null
+    role       text
 );
 
 create table project_tag
 (
-    id         bigint primary key,
+    id         bigserial primary key,
     project_id uuid references projects (id),
-    name       text not null
+    name       text
 );

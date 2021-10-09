@@ -1,5 +1,6 @@
 package com.epam.estart.service.impl;
 
+import com.epam.estart.dto.Project;
 import com.epam.estart.dto.VacantPlace;
 import com.epam.estart.entity.ProjectEntity;
 import com.epam.estart.entity.VacantPlacesEntity;
@@ -25,10 +26,11 @@ public class VacantPlacesService
     return VacantPlace.class;
   }
 
-  public void createAllByProjectEntity(ProjectEntity projectEntity) {
-    Set<VacantPlacesEntity> vacantPlaces = projectEntity.getVacantPlaces();
-    vacantPlaces.forEach(vacantPlacesEntity -> vacantPlacesEntity.setProjectId(projectEntity.getId()));
+  public Set<VacantPlacesEntity> createAllByProjectEntity(Project project) {
+    Set<VacantPlacesEntity> vacantPlaces = modelMapper.map(project, ProjectEntity.class).getVacantPlaces();
+    vacantPlaces.forEach(vacantPlacesEntity -> vacantPlacesEntity.setProjectId(project.getId()));
     repository.saveAll(vacantPlaces);
+    return vacantPlaces;
   }
 
   public void removeAll(Set<VacantPlacesEntity> vacantPlacesEntities) {

@@ -1,5 +1,6 @@
 package com.epam.estart.service.impl;
 
+import com.epam.estart.dto.Project;
 import com.epam.estart.dto.ProjectTag;
 import com.epam.estart.entity.ProjectEntity;
 import com.epam.estart.entity.ProjectTagEntity;
@@ -23,10 +24,11 @@ public class ProjectTagService extends AbstractService<Long, ProjectTag, Project
     return ProjectTag.class;
   }
 
-  public void createAllByProjectEntity(ProjectEntity projectEntity) {
-    Set<ProjectTagEntity> tags = projectEntity.getTags();
-    tags.forEach(projectTagEntity -> projectTagEntity.setProjectId(projectEntity.getId()));
+  public Set<ProjectTagEntity> createAllByProjectEntity(Project project) {
+    Set<ProjectTagEntity> tags = modelMapper.map(project, ProjectEntity.class).getTags();
+    tags.forEach(projectTagEntity -> projectTagEntity.setProjectId(project.getId()));
     repository.saveAll(tags);
+    return tags;
   }
 
   public void removeAll(Set<ProjectTagEntity> projectTagEntities) {

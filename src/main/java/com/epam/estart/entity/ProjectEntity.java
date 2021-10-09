@@ -37,6 +37,4 @@ public class ProjectEntity implements AbstractEntity<UUID> {
   private Set<MemberOnBoardEntity> membersOnBoard;
   @JsonIgnore
   private Instant createdAt;
-  @JsonIgnore
-  private Instant closedAt;
 }

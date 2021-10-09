@@ -21,6 +21,4 @@ public class Project implements AbstractDTO<UUID> {
   private Set<String> membersOnBoard;
   @JsonIgnore
   private Instant createdAt;
-  @JsonIgnore
-  private Instant closedAt;
 }

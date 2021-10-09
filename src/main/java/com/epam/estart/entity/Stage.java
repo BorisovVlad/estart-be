@@ -2,7 +2,7 @@ package com.epam.estart.entity;
 
 public enum Stage {
   IDEA,
-  MIDDLE,
-  END,
+  IN_PROGRESS,
+  CLOSE_TO_THE_END,
   CLOSED
 }
