@@ -1,5 +1,6 @@
 package com.epam.estart.config;
 
+import static com.epam.estart.config.ModelMapperMappings.projectMappings;
 import static com.epam.estart.config.ModelMapperMappings.userMappings;
 
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,7 @@ public class Config {
   public ModelMapper modelMapper() {
     ModelMapper modelMapper = new ModelMapper();
     userMappings(modelMapper);
+    projectMappings(modelMapper);
     return modelMapper;
   }
 }

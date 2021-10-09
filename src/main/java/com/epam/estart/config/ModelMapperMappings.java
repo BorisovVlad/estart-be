@@ -1,9 +1,14 @@
 package com.epam.estart.config;
 
+import com.epam.estart.dto.Project;
 import com.epam.estart.dto.User;
+import com.epam.estart.entity.MemberOnBoardEntity;
+import com.epam.estart.entity.ProjectEntity;
+import com.epam.estart.entity.ProjectTagEntity;
 import com.epam.estart.entity.UserEntity;
 import com.epam.estart.entity.UserRoleEntity;
 import com.epam.estart.entity.UserTagEntity;
+import com.epam.estart.entity.VacantPlacesEntity;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.modelmapper.Converter;
@@ -11,17 +16,70 @@ import org.modelmapper.ModelMapper;
 
 public final class ModelMapperMappings {
   private ModelMapperMappings() {
-
   }
 
-  public static void userMappings(ModelMapper modelMapper) {
-    modelMapper.typeMap(User.class, UserEntity.class)
+  public static void userMappings(ModelMapper model) {
+    model.typeMap(User.class, UserEntity.class)
         .addMappings(mapping -> mapping.using(stringToUserRoleConverter()).map(User::getRoles, UserEntity::setRoles))
         .addMappings(mapping -> mapping.using(stringToUserTagConverter()).map(User::getTags, UserEntity::setTags));
-    modelMapper.typeMap(UserEntity.class, User.class)
+    model.typeMap(UserEntity.class, User.class)
         .addMappings(mapping -> mapping.using(userRoleToStringConverter()).map(UserEntity::getRoles, User::setRoles))
         .addMappings(mapping -> mapping.using(userTagToStringConverter()).map(UserEntity::getTags, User::setTags));
   }
+
+  public static void projectMappings(ModelMapper model) {
+    model.typeMap(Project.class, ProjectEntity.class)
+        .addMappings(mapping -> mapping.using(stringToProjectTagConverter())
+            .map(Project::getTags, ProjectEntity::setTags))
+        .addMappings(mapping -> mapping.using(stringToMemberOnBoardConverter())
+            .map(Project::getMembersOnBoard, ProjectEntity::setMembersOnBoard))
+        .addMappings(mapping -> mapping.using(stringToVacantPlacesConverter())
+            .map(Project::getVacantPlaces, ProjectEntity::setVacantPlaces));
+    model.typeMap(ProjectEntity.class, Project.class)
+        .addMappings(mapping -> mapping.using(projectTagToStringConverter())
+            .map(ProjectEntity::getTags, Project::setTags))
+        .addMappings(mapping -> mapping.using(memberOnBoardToStringConverter())
+            .map(ProjectEntity::getMembersOnBoard, Project::setMembersOnBoard))
+        .addMappings(mapping -> mapping.using(vacantPlacesToStringConverter())
+            .map(ProjectEntity::getVacantPlaces, Project::setVacantPlaces));
+  }
+
+  private static Converter<Set<String>, Set<ProjectTagEntity>> stringToProjectTagConverter() {
+    return context -> context.getSource() == null ? null : context.getSource().stream()
+        .map(s -> new ProjectTagEntity().setName(s))
+        .collect(Collectors.toSet());
+  }
+
+  private static Converter<Set<ProjectTagEntity>, Set<String>> projectTagToStringConverter() {
+    return context -> context.getSource() == null ? null : context.getSource().stream()
+        .map(ProjectTagEntity::getName)
+        .collect(Collectors.toSet());
+  }
+
+  private static Converter<Set<String>, Set<MemberOnBoardEntity>> stringToMemberOnBoardConverter() {
+    return context -> context.getSource() == null ? null : context.getSource().stream()
+        .map(s -> new MemberOnBoardEntity().setRole(s))
+        .collect(Collectors.toSet());
+  }
+
+  private static Converter<Set<MemberOnBoardEntity>, Set<String>> memberOnBoardToStringConverter() {
+    return context -> context.getSource() == null ? null : context.getSource().stream()
+        .map(MemberOnBoardEntity::getRole)
+        .collect(Collectors.toSet());
+  }
+
+  private static Converter<Set<String>, Set<VacantPlacesEntity>> stringToVacantPlacesConverter() {
+    return context -> context.getSource() == null ? null : context.getSource().stream()
+        .map(s -> new VacantPlacesEntity().setRole(s))
+        .collect(Collectors.toSet());
+  }
+
+  private static Converter<Set<VacantPlacesEntity>, Set<String>> vacantPlacesToStringConverter() {
+    return context -> context.getSource() == null ? null : context.getSource().stream()
+        .map(VacantPlacesEntity::getRole)
+        .collect(Collectors.toSet());
+  }
+
 
   private static Converter<Set<String>, Set<UserRoleEntity>> stringToUserRoleConverter() {
     return context -> context.getSource() == null ? null : context.getSource().stream()
