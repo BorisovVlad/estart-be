@@ -4,7 +4,7 @@ import com.epam.estart.dto.Project;
 import com.epam.estart.entity.MemberOnBoardEntity;
 import com.epam.estart.entity.ProjectEntity;
 import com.epam.estart.entity.ProjectTagEntity;
-import com.epam.estart.entity.VacantPlacesEntity;
+import com.epam.estart.entity.VacantPlaceEntity;
 import com.epam.estart.repository.ProjectRepository;
 import com.epam.estart.service.DateSupplier;
 import java.util.List;
@@ -16,14 +16,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProjectService extends AbstractService<UUID, Project, ProjectEntity, ProjectRepository> {
   private final ProjectTagService projectTagService;
-  private final VacantPlacesService vacantPlacesService;
+  private final VacantPlaceService vacantPlacesService;
   private final MemberOnBoardService memberOnBoardService;
   private final DateSupplier dateSupplier;
 
 
   ProjectService(ProjectRepository repository, ProjectTagService projectTagService,
-                 VacantPlacesService vacantPlacesService,
-                 MemberOnBoardService memberOnBoardService, DateSupplier dateSupplier) {
+                 VacantPlaceService vacantPlacesService,
+                 MemberOnBoardService memberOnBoardService,
+                 DateSupplier dateSupplier) {
     super(repository);
     this.projectTagService = projectTagService;
     this.vacantPlacesService = vacantPlacesService;
@@ -75,6 +76,15 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
         .collect(Collectors.toList());
   }
 
+  public List<Project> getAllProjectsByFilter(Set<String> vacantPlaceRoles, Set<String> stages, Set<String> tagNames) {
+    return repository.findAllByFilter(
+            vacantPlaceRoles, vacantPlaceRoles.isEmpty(),
+            stages, stages.isEmpty(),
+            tagNames, tagNames.isEmpty()).stream()
+        .map(projectEntity -> modelMapper.map(projectEntity, Project.class))
+        .collect(Collectors.toList());
+  }
+
   private Set<ProjectTagEntity> getNewProjectTags(Project project, ProjectEntity projectEntity) {
     Set<ProjectTagEntity> oldProjectTags = projectEntity.getTags();
     Set<ProjectTagEntity> newProjectTags = project.getTags().stream()
@@ -86,10 +96,10 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
     return projectTagService.createAllByProjectEntity(project.setId(projectEntity.getId()));
   }
 
-  private Set<VacantPlacesEntity> getNewVacantPlaces(Project project, ProjectEntity projectEntity) {
-    Set<VacantPlacesEntity> oldVacantPlaces = projectEntity.getVacantPlaces();
-    Set<VacantPlacesEntity> newVacantPlaces = project.getVacantPlaces().stream()
-        .map(tag -> new VacantPlacesEntity().setProjectId(project.getId()))
+  private Set<VacantPlaceEntity> getNewVacantPlaces(Project project, ProjectEntity projectEntity) {
+    Set<VacantPlaceEntity> oldVacantPlaces = projectEntity.getVacantPlaces();
+    Set<VacantPlaceEntity> newVacantPlaces = project.getVacantPlaces().stream()
+        .map(tag -> new VacantPlaceEntity().setProjectId(project.getId()))
         .collect(Collectors.toSet());
     oldVacantPlaces.removeAll(newVacantPlaces);
     vacantPlacesService.removeAll(oldVacantPlaces);

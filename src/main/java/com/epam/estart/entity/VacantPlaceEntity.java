@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Entity
 @Data
 @Accessors(chain = true)
-public class VacantPlacesEntity implements AbstractEntity<Long> {
+public class VacantPlaceEntity implements AbstractEntity<Long> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
