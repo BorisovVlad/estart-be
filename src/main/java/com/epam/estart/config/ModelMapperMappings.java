@@ -9,8 +9,12 @@ import java.util.stream.Collectors;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 
-public class ModelMapperMappings {
-  public static void muserMappings(ModelMapper modelMapper) {
+public final class ModelMapperMappings {
+  private ModelMapperMappings() {
+
+  }
+
+  public static void userMappings(ModelMapper modelMapper) {
     modelMapper.typeMap(User.class, UserEntity.class)
         .addMappings(mapping -> mapping.using(stringToUserRoleConverter()).map(User::getRoles, UserEntity::setRoles))
         .addMappings(mapping -> mapping.using(stringToUserTagConverter()).map(User::getTags, UserEntity::setTags));

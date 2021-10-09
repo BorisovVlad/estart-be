@@ -1,26 +1,24 @@
 package com.epam.estart.service.impl;
 
 import com.epam.estart.dto.User;
-import com.epam.estart.dto.UserRole;
 import com.epam.estart.entity.UserEntity;
 import com.epam.estart.entity.UserRoleEntity;
 import com.epam.estart.entity.UserTagEntity;
 import com.epam.estart.repository.UserRepository;
-import com.epam.estart.repository.UserRoleRepository;
-import com.epam.estart.repository.UserTagRepository;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService extends AbstractService<UUID, User, UserEntity, UserRepository> {
-  private final UserRoleRepository userRoleRepository;
-  private final UserTagRepository userTagRepository;
+  private final UserRoleService userRoleService;
+  private final UserTagService userTagService;
 
-  UserService(UserRepository repository, UserRoleRepository userRoleRepository, UserTagRepository userTagRepository) {
+  UserService(UserRepository repository, UserRoleService userRoleService, UserTagService userTagService) {
     super(repository);
-    this.userRoleRepository = userRoleRepository;
-    this.userTagRepository = userTagRepository;
+    this.userRoleService = userRoleService;
+    this.userTagService = userTagService;
   }
 
   @Override
@@ -36,19 +34,45 @@ public class UserService extends AbstractService<UUID, User, UserEntity, UserRep
   @Override
   public User create(User user) {
     UserEntity userEntity = modelMapper.map(user, UserEntity.class);
-    Set<UserRoleEntity> userRoleEntities = userEntity.getRoles();
-    Set<UserTagEntity> userTagEntities = userEntity.getTags();
-    userEntity.setRoles(null);
-    userEntity.setTags(null);
     userEntity = repository.save(userEntity);
-    for (UserRoleEntity userRole : userRoleEntities) {
-      userRole.setUserId(userEntity.getId());
-    }
-    userRoleRepository.saveAll(userRoleEntities);
-    for (UserTagEntity userTag : userTagEntities) {
-      userTag.setUserId(userEntity.getId());
-    }
-    userTagRepository.saveAll(userTagEntities);
+    userRoleService.createAllByUserEntity(userEntity);
+    userTagService.createAllByUserEntity(userEntity);
     return getById(userEntity.getId());
+  }
+
+  public User updateAndReturn(User user) {
+    UserEntity userEntity = repository.findById(user.getId())
+        .orElseThrow(() -> new IllegalArgumentException(String.format("User with id=%s not found!", user.getId())));
+    userEntity.setFirstName(user.getFirstName())
+        .setLastName(user.getLastName())
+        .setEmail(user.getEmail())
+        .setAboutMe(user.getAboutMe())
+        .setHardSkills(user.getHardSkills())
+        .setMainRole(user.getMainRole());
+    updateUserRoles(user, userEntity);
+    updateUserTags(user, userEntity);
+    return getById(userEntity.getId());
+  }
+
+  private void updateUserRoles(User user, UserEntity userEntity) {
+    Set<UserRoleEntity> oldUserRoles = userEntity.getRoles();
+    Set<UserRoleEntity> newUserRoles = user.getRoles().stream()
+        .map(s -> new UserRoleEntity().setUserId(user.getId()).setName(s))
+        .collect(Collectors.toSet());
+    oldUserRoles.removeAll(newUserRoles);
+    userRoleService.removeAll(oldUserRoles);
+    userEntity.setRoles(newUserRoles);
+    userRoleService.createAllByUserEntity(userEntity);
+  }
+
+  private void updateUserTags(User user, UserEntity userEntity) {
+    Set<UserTagEntity> oldUserTags = userEntity.getTags();
+    Set<UserTagEntity> newUserTags = user.getTags().stream()
+        .map(s -> new UserTagEntity().setUserId(user.getId()).setName(s))
+        .collect(Collectors.toSet());
+    oldUserTags.removeAll(newUserTags);
+    userTagService.removeAll(oldUserTags);
+    userEntity.setTags(newUserTags);
+    userTagService.createAllByUserEntity(userEntity);
   }
 }

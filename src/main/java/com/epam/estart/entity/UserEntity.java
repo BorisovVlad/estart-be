@@ -3,7 +3,6 @@ package com.epam.estart.entity;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -28,8 +27,8 @@ public class UserEntity implements AbstractEntity<UUID> {
   private String aboutMe;
   private String hardSkills;
   private String mainRole;
-  @OneToMany(mappedBy = "userId",fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "userId")
   private Set<UserRoleEntity> roles;
-  @OneToMany(mappedBy = "userId",fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "userId")
   private Set<UserTagEntity> tags;
 }

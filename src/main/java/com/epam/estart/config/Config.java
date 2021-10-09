@@ -1,6 +1,6 @@
 package com.epam.estart.config;
 
-import static com.epam.estart.config.ModelMapperMappings.muserMappings;
+import static com.epam.estart.config.ModelMapperMappings.userMappings;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -11,9 +11,7 @@ public class Config {
   @Bean
   public ModelMapper modelMapper() {
     ModelMapper modelMapper = new ModelMapper();
-    muserMappings(modelMapper);
-
+    userMappings(modelMapper);
     return modelMapper;
   }
-
 }
