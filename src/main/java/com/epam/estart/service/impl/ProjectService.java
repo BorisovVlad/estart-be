@@ -42,7 +42,8 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
 
   @Override
   public Project create(Project project) {
-    ProjectEntity projectEntity = modelMapper.map(project.setCreatedAt(dateSupplier.current()), ProjectEntity.class);
+    ProjectEntity projectEntity = modelMapper.map(project, ProjectEntity.class)
+        .setCreatedAt(dateSupplier.current());
     projectEntity = repository.save(projectEntity);
     projectEntity.setTags(projectTagService.createAllByProjectEntity(project.setId(projectEntity.getId())))
         .setVacantPlaces(vacantPlacesService.createAllByProjectEntity(project.setId(projectEntity.getId())))

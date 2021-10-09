@@ -2,7 +2,12 @@ package com.epam.estart.controller;
 
 import com.epam.estart.dto.Project;
 import com.epam.estart.service.impl.ProjectService;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,5 +36,19 @@ public class ProjectController {
   @PutMapping
   public Project update(@RequestBody Project project) {
     return projectService.updateAndReturn(project);
+  }
+
+  @GetMapping
+  public Collection<Project> getAllProjectsByFilter() {
+    return Stream.generate(() -> new Project()
+            .setId(UUID.randomUUID())
+            .setName("test project")
+            .setAboutProject("about project")
+            .setCreatedAt(Instant.now())
+            .setTags(Collections.emptySet())
+            .setVacantPlaces(Collections.emptySet())
+            .setMembersOnBoard(Collections.emptySet()))
+        .limit(5)
+        .collect(Collectors.toSet());
   }
 }
