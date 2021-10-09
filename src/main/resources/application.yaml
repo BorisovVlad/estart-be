@@ -2,7 +2,7 @@ spring:
   datasource:
     driverClassName: org.postgresql.Driver
     url: ${DB_URL:jdbc:postgresql://${DB_HOST:ec2-34-249-247-7.eu-west-1.compute.amazonaws.com}:${DB_PORT:5432}/${DB_NAME:dflspd6luhq4ld}}
-    username: ${DB_USERNAME:dflspd6luhq4ld}
+    username: ${DB_USERNAME:sqylpuaxxvwkok}
     password: ${DB_PASSWORD:9ea28d01b61d6502d176405c471b2a175746bc23a102370b7cde0e189af47cea}
   jpa:
     hibernate:
