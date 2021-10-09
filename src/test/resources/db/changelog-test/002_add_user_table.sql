@@ -10,13 +10,13 @@ CREATE TABLE user_table (
 );
 
 CREATE TABLE user_role (
-    id         BIGINT primary key,
+    id         bigserial primary key,
     user_id    UUID references user_table(id),
     name       text
 );
 
 CREATE TABLE user_tag (
-    id         BIGINT primary key ,
+    id         bigserial primary key ,
     user_id    UUID references user_table(id),
     name       text
 );

@@ -10,7 +10,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
-    show-sql: false
+    show-sql: true
   liquibase:
     change-log: classpath:db/db.changelog-test.yaml
     drop_first: true
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non_null
+    serialization:
+      WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
