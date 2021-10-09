@@ -48,13 +48,13 @@ public class UserService extends AbstractService<UUID, User, UserEntity, UserRep
         .setEmail(user.getEmail())
         .setAboutMe(user.getAboutMe())
         .setHardSkills(user.getHardSkills())
-        .setMainRole(user.getMainRole());
-    updateUserRoles(user, userEntity);
-    updateUserTags(user, userEntity);
-    return getById(userEntity.getId());
+        .setMainRole(user.getMainRole())
+        .setRoles(updateUserRoles(user, userEntity))
+        .setTags(updateUserTags(user, userEntity));
+    return modelMapper.map(repository.save(userEntity), User.class);
   }
 
-  private void updateUserRoles(User user, UserEntity userEntity) {
+  private Set<UserRoleEntity> updateUserRoles(User user, UserEntity userEntity) {
     Set<UserRoleEntity> oldUserRoles = userEntity.getRoles();
     Set<UserRoleEntity> newUserRoles = user.getRoles().stream()
         .map(s -> new UserRoleEntity().setUserId(user.getId()).setName(s))
@@ -63,9 +63,10 @@ public class UserService extends AbstractService<UUID, User, UserEntity, UserRep
     userRoleService.removeAll(oldUserRoles);
     userEntity.setRoles(newUserRoles);
     userRoleService.createAllByUserEntity(userEntity);
+    return newUserRoles;
   }
 
-  private void updateUserTags(User user, UserEntity userEntity) {
+  private Set<UserTagEntity> updateUserTags(User user, UserEntity userEntity) {
     Set<UserTagEntity> oldUserTags = userEntity.getTags();
     Set<UserTagEntity> newUserTags = user.getTags().stream()
         .map(s -> new UserTagEntity().setUserId(user.getId()).setName(s))
@@ -74,5 +75,6 @@ public class UserService extends AbstractService<UUID, User, UserEntity, UserRep
     userTagService.removeAll(oldUserTags);
     userEntity.setTags(newUserTags);
     userTagService.createAllByUserEntity(userEntity);
+    return newUserTags;
   }
 }
