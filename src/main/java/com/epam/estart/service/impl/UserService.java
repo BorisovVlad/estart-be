@@ -58,7 +58,6 @@ public class UserService extends AbstractService<UUID, User, UserEntity, UserRep
         .orElseThrow(() -> new IllegalArgumentException(String.format("User with id=%s not found!", user.getId())));
     userEntity.setFirstName(user.getFirstName())
         .setLastName(user.getLastName())
-        .setEmail(user.getEmail())
         .setAboutMe(user.getAboutMe())
         .setHardSkills(user.getHardSkills())
         .setMainRole(user.getMainRole())

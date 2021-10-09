@@ -93,14 +93,7 @@ public class JwtProvider {
   private Map<String, Object> generateJwtClaims(UserEntity userEntity) {
     Map<String, Object> claims = new LinkedHashMap<>();
     claims.put("id", userEntity.getId());
-    claims.put("firstName", userEntity.getFirstName());
-    claims.put("lastName", userEntity.getLastName());
     claims.put("email", userEntity.getEmail());
-    claims.put("aboutMe", userEntity.getAboutMe());
-    claims.put("hardSkills", userEntity.getHardSkills());
-    claims.put("mainRole", userEntity.getMainRole());
-    claims.put("roles", userEntity.getRoles());
-    claims.put("tags", userEntity.getTags());
     return claims;
   }
 }

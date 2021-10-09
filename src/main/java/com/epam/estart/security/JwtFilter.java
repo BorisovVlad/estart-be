@@ -28,8 +28,9 @@ public class JwtFilter extends GenericFilterBean {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response,
                        FilterChain chain) throws IOException, ServletException {
-    String token = jwtProvider.getTokenFromRequest((HttpServletRequest) request).get();
-    if (jwtProvider.validateToken(token)) {
+    String token = jwtProvider.getTokenFromRequest((HttpServletRequest) request)
+            .orElse("undefined");
+    if ("undefined".equals(token) && jwtProvider.validateToken(token)) {
       String email = jwtProvider.getEmailFromToken(token);
       UserEntity userEntity = userRepository.findByEmailIgnoreCase(email)
           .orElseThrow(() -> new SecurityException(NO_SUCH_ENTITY, "Entity with email " + email + " does not exist."));
