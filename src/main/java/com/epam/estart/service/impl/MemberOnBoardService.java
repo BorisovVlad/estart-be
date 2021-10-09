@@ -5,6 +5,7 @@ import com.epam.estart.dto.Project;
 import com.epam.estart.entity.MemberOnBoardEntity;
 import com.epam.estart.entity.ProjectEntity;
 import com.epam.estart.repository.MemberOnBoardRepository;
+import java.util.HashSet;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,8 @@ public class MemberOnBoardService
 
   public Set<MemberOnBoardEntity> createAllByProjectEntity(Project project) {
     Set<MemberOnBoardEntity> membersOnBoard = modelMapper.map(project, ProjectEntity.class).getMembersOnBoard();
+    // TODO: rework this, it's only quick fix
+    membersOnBoard = membersOnBoard == null ? new HashSet<>() : membersOnBoard;
     membersOnBoard.forEach(memberOnBoardEntity -> memberOnBoardEntity.setProjectId(project.getId()));
     repository.saveAll(membersOnBoard);
     return membersOnBoard;

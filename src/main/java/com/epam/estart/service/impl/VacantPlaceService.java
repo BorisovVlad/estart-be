@@ -5,10 +5,8 @@ import com.epam.estart.dto.VacantPlace;
 import com.epam.estart.entity.ProjectEntity;
 import com.epam.estart.entity.VacantPlaceEntity;
 import com.epam.estart.repository.VacantPlaceRepository;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +29,8 @@ public class VacantPlaceService
 
   public Set<VacantPlaceEntity> createAllByProjectEntity(Project project) {
     Set<VacantPlaceEntity> vacantPlaces = modelMapper.map(project, ProjectEntity.class).getVacantPlaces();
+    // TODO: rework this, it's only quick fix
+    vacantPlaces = vacantPlaces == null ? new HashSet<>() : vacantPlaces;
     vacantPlaces.forEach(vacantPlacesEntity -> vacantPlacesEntity.setProjectId(project.getId()));
     repository.saveAll(vacantPlaces);
     return vacantPlaces;

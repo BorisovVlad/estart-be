@@ -5,6 +5,7 @@ import com.epam.estart.dto.ProjectTag;
 import com.epam.estart.entity.ProjectEntity;
 import com.epam.estart.entity.ProjectTagEntity;
 import com.epam.estart.repository.ProjectTagRepository;
+import java.util.HashSet;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,8 @@ public class ProjectTagService extends AbstractService<Long, ProjectTag, Project
 
   public Set<ProjectTagEntity> createAllByProjectEntity(Project project) {
     Set<ProjectTagEntity> tags = modelMapper.map(project, ProjectEntity.class).getTags();
+    // TODO: rework this, it's only quick fix
+    tags = tags == null ? new HashSet<>() : tags;
     tags.forEach(projectTagEntity -> projectTagEntity.setProjectId(project.getId()));
     repository.saveAll(tags);
     return tags;
