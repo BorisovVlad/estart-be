@@ -30,8 +30,8 @@ public abstract class AbstractService<I, D extends AbstractDTO<I>,
   public abstract Class<D> getDTOClass();
 
   @Override
-  public D create(D entity) {
-    return modelMapper.map(repository.save(modelMapper.map(entity, getEntityClass())), getDTOClass());
+  public D create(D dto) {
+    return modelMapper.map(repository.save(modelMapper.map(dto, getEntityClass())), getDTOClass());
   }
 
   @Override
@@ -42,13 +42,13 @@ public abstract class AbstractService<I, D extends AbstractDTO<I>,
   }
 
   @Override
-  public void update(D entity) {
-    repository.save(modelMapper.map(entity, getEntityClass()));
+  public void update(D dto) {
+    repository.save(modelMapper.map(dto, getEntityClass()));
   }
 
   @Override
-  public void delete(D entity) {
-    repository.delete(modelMapper.map(entity, getEntityClass()));
+  public void delete(D dto) {
+    repository.delete(modelMapper.map(dto, getEntityClass()));
   }
 
   @Override
