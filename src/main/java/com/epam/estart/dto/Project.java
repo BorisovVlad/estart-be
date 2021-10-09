@@ -14,6 +14,9 @@ public class Project implements AbstractDTO<UUID> {
   private UUID id;
   private UUID ownerId;
   private String name;
+  private String email;
+  private String phone;
+  private byte[] image;
   private Stage stage;
   private String aboutProject;
   private Set<String> tags;
