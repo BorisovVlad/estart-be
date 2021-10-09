@@ -7,6 +7,7 @@ import com.epam.estart.entity.ProjectTagEntity;
 import com.epam.estart.entity.VacantPlacesEntity;
 import com.epam.estart.repository.ProjectRepository;
 import com.epam.estart.service.DateSupplier;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -66,6 +67,12 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
         .setMembersOnBoard(getNewMembersOnBoard(project, projectEntity));
 
     return modelMapper.map(repository.save(projectEntity), Project.class);
+  }
+
+  public List<Project> getAllProjects() {
+    return repository.findAll().stream()
+        .map(entity -> modelMapper.map(entity, Project.class))
+        .collect(Collectors.toList());
   }
 
   private Set<ProjectTagEntity> getNewProjectTags(Project project, ProjectEntity projectEntity) {
