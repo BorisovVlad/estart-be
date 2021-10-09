@@ -8,7 +8,7 @@ import com.epam.estart.entity.ProjectTagEntity;
 import com.epam.estart.entity.UserEntity;
 import com.epam.estart.entity.UserRoleEntity;
 import com.epam.estart.entity.UserTagEntity;
-import com.epam.estart.entity.VacantPlacesEntity;
+import com.epam.estart.entity.VacantPlaceEntity;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.modelmapper.Converter;
@@ -68,15 +68,15 @@ public final class ModelMapperMappings {
         .collect(Collectors.toSet());
   }
 
-  private static Converter<Set<String>, Set<VacantPlacesEntity>> stringToVacantPlacesConverter() {
+  private static Converter<Set<String>, Set<VacantPlaceEntity>> stringToVacantPlacesConverter() {
     return context -> context.getSource() == null ? null : context.getSource().stream()
-        .map(s -> new VacantPlacesEntity().setRole(s))
+        .map(s -> new VacantPlaceEntity().setRole(s))
         .collect(Collectors.toSet());
   }
 
-  private static Converter<Set<VacantPlacesEntity>, Set<String>> vacantPlacesToStringConverter() {
+  private static Converter<Set<VacantPlaceEntity>, Set<String>> vacantPlacesToStringConverter() {
     return context -> context.getSource() == null ? null : context.getSource().stream()
-        .map(VacantPlacesEntity::getRole)
+        .map(VacantPlaceEntity::getRole)
         .collect(Collectors.toSet());
   }
 

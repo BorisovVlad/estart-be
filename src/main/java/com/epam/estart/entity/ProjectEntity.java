@@ -32,7 +32,7 @@ public class ProjectEntity implements AbstractEntity<UUID> {
   @OneToMany(mappedBy = "projectId")
   private Set<ProjectTagEntity> tags;
   @OneToMany(mappedBy = "projectId")
-  private Set<VacantPlacesEntity> vacantPlaces;
+  private Set<VacantPlaceEntity> vacantPlaces;
   @OneToMany(mappedBy = "projectId")
   private Set<MemberOnBoardEntity> membersOnBoard;
   @JsonIgnore
