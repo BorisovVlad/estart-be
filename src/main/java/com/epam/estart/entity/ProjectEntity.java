@@ -26,13 +26,13 @@ public class ProjectEntity implements AbstractEntity<UUID> {
   private UUID id;
   private UUID ownerId;
   private String name;
+  private String stage;
   private String email;
   private String phone;
   private String image;
   @Enumerated(EnumType.STRING)
   private Language language;
   @Enumerated(EnumType.STRING)
-  private Stage stage;
   private String aboutProject;
   @OneToMany(mappedBy = "projectId")
   private Set<ProjectTagEntity> tags;

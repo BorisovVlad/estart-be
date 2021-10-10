@@ -15,11 +15,11 @@ public class Project implements AbstractDTO<UUID> {
   private UUID id;
   private UUID ownerId;
   private String name;
+  private String stage;
   private String email;
   private String phone;
   private String image;
   private Language language;
-  private Stage stage;
   private String aboutProject;
   private Set<String> tags;
   private Set<String> vacantPlaces;
