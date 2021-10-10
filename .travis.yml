@@ -14,17 +14,17 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-branches:
-  only:
-    - main
+script:
+  - chmod +x gradlew
+  - ./gradlew clean check
 
-jobs:
-  include:
-    - stage: clean
-      script: ./gradlew clean
-    - stage: compile
-      script: ./gradlew build
-    - stage: checkstyle
-      script: ./gradlew checkstyleMain checkstyleTest -i
-    - stage: test
-      script: ./gradlew test
+  jobs:
+    include:
+      - stage: clean
+        script: ./gradlew clean
+      - stage: compile
+        script: ./gradlew build
+      - stage: checkstyle
+        script: ./gradlew checkstyleMain checkstyleTest -i
+      - stage: test
+        script: ./gradlew test
