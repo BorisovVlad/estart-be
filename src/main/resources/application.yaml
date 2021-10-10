@@ -24,4 +24,4 @@ spring:
 
 security:
   jwt-secret: baVxQ9MNwC3A2r8sW5xbdP96O/ncrM8NJZtghIKM6bEos+UsPFMhtybGCWWtEUbQMyR+5JJUsrN7qm1wnz5g0w==
-  jwt-expiration: 7200 # 120 minutes duration by default
+  jwt-expiration: 28800 # 480 minutes duration by default

@@ -19,7 +19,6 @@ import org.springframework.web.cors.CorsConfiguration;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final JwtFilter jwtFilter;
@@ -31,16 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
         .and()
         .csrf().disable()
-        .exceptionHandling()
-        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-        .and()
-        .authorizeRequests().anyRequest().permitAll()
+            .exceptionHandling()
+            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+            .and()
+        .authorizeRequests()
+            .anyRequest().permitAll()
         .and()
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-        .logout()
-        .invalidateHttpSession(true)
-        .deleteCookies("JSESSIONID")
-        .and()
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
