@@ -12,7 +12,7 @@ public class FilterOptions {
   private int page = 0;
   private int size = 10;
   private Set<String> vacantPlaces = new HashSet<>();
-  private Set<String> stages = new HashSet<>();
+  private Set<String> stage = new HashSet<>();
   private Set<String> tags = new HashSet<>();
 
   public PageRequest getPageRequest() {

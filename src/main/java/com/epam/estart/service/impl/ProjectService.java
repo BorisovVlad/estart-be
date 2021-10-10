@@ -87,9 +87,9 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
                                               Set<String> tagNames,
                                               Pageable pageable) {
     return repository.findAllByFilter(
-        tagNames, tagNames.isEmpty(),
+        tagNames, tagNames.isEmpty(), tagNames.size(),
         stages, stages.isEmpty(),
-        vacantPlaceRoles, vacantPlaceRoles.isEmpty(),
+        vacantPlaceRoles, vacantPlaceRoles.isEmpty(), vacantPlaceRoles.size(),
         pageable
     ).map(projectEntity -> modelMapper.map(projectEntity,
         Project.class));

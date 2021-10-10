@@ -52,7 +52,7 @@ public class ProjectController {
   public Page<Project> postFiltersAndGetResult(@RequestBody FilterOptions options) {
     return projectService.getAllProjectsByFilter(
         options.getVacantPlaces(),
-        options.getStages(),
+        options.getStage(),
         options.getTags(),
         options.getPageRequest()
     );
