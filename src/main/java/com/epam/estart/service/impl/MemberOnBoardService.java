@@ -5,7 +5,6 @@ import com.epam.estart.dto.Project;
 import com.epam.estart.entity.MemberOnBoardEntity;
 import com.epam.estart.entity.ProjectEntity;
 import com.epam.estart.repository.MemberOnBoardRepository;
-import java.util.HashSet;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 

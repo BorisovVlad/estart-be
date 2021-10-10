@@ -1,14 +1,13 @@
 package com.epam.estart.security;
 
 import com.epam.estart.dto.User;
+import java.security.Principal;
+import java.util.Collection;
+import java.util.Collections;
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-
-import java.security.Principal;
-import java.util.Collection;
-import java.util.Collections;
 
 @Data
 public class JwtAuthenticationToken implements Authentication {

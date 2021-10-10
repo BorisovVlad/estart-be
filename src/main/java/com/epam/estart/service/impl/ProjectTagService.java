@@ -5,7 +5,6 @@ import com.epam.estart.dto.ProjectTag;
 import com.epam.estart.entity.ProjectEntity;
 import com.epam.estart.entity.ProjectTagEntity;
 import com.epam.estart.repository.ProjectTagRepository;
-import java.util.HashSet;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 

@@ -1,25 +1,30 @@
 package com.epam.estart.security;
 
+import static com.epam.estart.dto.error.ServiceError.NO_SUCH_ENTITY;
+import static org.springframework.util.StringUtils.hasText;
+
 import com.epam.estart.config.properties.SecurityProperties;
 import com.epam.estart.entity.UserEntity;
 import com.epam.estart.exception.NotFoundException;
 import com.epam.estart.exception.ValidationException;
 import com.epam.estart.repository.UserRepository;
-import io.jsonwebtoken.*;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletRequest;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import static com.epam.estart.dto.error.ServiceError.NO_SUCH_ENTITY;
-import static org.springframework.util.StringUtils.hasText;
+import javax.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j

@@ -1,5 +1,8 @@
 package com.epam.estart.service;
 
+import static com.epam.estart.dto.error.ServiceError.USER_ALREADY_EXISTS;
+import static com.epam.estart.dto.error.ServiceError.WRONG_CREDENTIALS;
+
 import com.epam.estart.dto.User;
 import com.epam.estart.exception.ValidationException;
 import com.epam.estart.security.JwtDto;
@@ -8,8 +11,6 @@ import com.epam.estart.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.epam.estart.dto.error.ServiceError.USER_ALREADY_EXISTS;
-import static com.epam.estart.dto.error.ServiceError.WRONG_CREDENTIALS;
 
 @Service
 @RequiredArgsConstructor

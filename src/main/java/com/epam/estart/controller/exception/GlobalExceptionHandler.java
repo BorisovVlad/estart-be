@@ -1,5 +1,11 @@
 package com.epam.estart.controller.exception;
 
+import static java.util.stream.Collectors.toList;
+import static org.apache.logging.log4j.Level.DEBUG;
+import static org.apache.logging.log4j.Level.WARN;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+
 import com.epam.estart.dto.error.ErrorResponseBody;
 import com.epam.estart.dto.error.ErrorType;
 import com.epam.estart.dto.error.InnerError;
@@ -8,6 +14,9 @@ import com.epam.estart.exception.NotFoundException;
 import com.epam.estart.exception.SecurityException;
 import com.epam.estart.exception.ServerException;
 import com.epam.estart.exception.ValidationException;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Stream;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 import org.springframework.http.HttpStatus;
@@ -16,16 +25,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
-import static org.apache.logging.log4j.Level.DEBUG;
-import static org.apache.logging.log4j.Level.WARN;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Log4j2
 @RestControllerAdvice

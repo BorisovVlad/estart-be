@@ -5,7 +5,6 @@ import com.epam.estart.dto.VacantPlace;
 import com.epam.estart.entity.ProjectEntity;
 import com.epam.estart.entity.VacantPlaceEntity;
 import com.epam.estart.repository.VacantPlaceRepository;
-import java.util.HashSet;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 
