@@ -1,3 +1,5 @@
-ALTER TABLE projects ADD email text;
-ALTER TABLE projects ADD phone text;
-ALTER TABLE projects ADD image bytea;
+ALTER TABLE projects
+ADD COLUMN email text,
+ADD COLUMN phone text,
+ADD COLUMN image text,
+ADD COLUMN language text;
