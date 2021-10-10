@@ -2,6 +2,8 @@ package com.epam.estart.controller;
 
 import com.epam.estart.dto.Project;
 import com.epam.estart.model.FilterOptions;
+import com.epam.estart.security.AuthorisedUser;
+import com.epam.estart.service.AuthenticationService;
 import com.epam.estart.service.impl.ProjectService;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ProjectController {
   private final ProjectService projectService;
+  private final AuthenticationService authenticationService;
 
   @GetMapping("/{id}")
   public Project getById(@PathVariable UUID id) {
@@ -58,8 +61,9 @@ public class ProjectController {
     );
   }
 
-  @GetMapping("/owner/{ownerId}")
-  public List<Project> getAllProjectsByOwnerId(@PathVariable UUID ownerId) {
-    return projectService.getAllProjectsByOwnerId(ownerId);
+  @GetMapping("/owner")
+  public List<Project> getAllProjectsByOwnerId() {
+    AuthorisedUser authenticatedUser = authenticationService.getAuthenticatedUser();
+    return projectService.getAllProjectsByOwnerId(authenticatedUser.getId());
   }
 }
