@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -80,13 +82,17 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
         .collect(Collectors.toList());
   }
 
-  public List<Project> getAllProjectsByFilter(Set<String> vacantPlaceRoles, Set<String> stages, Set<String> tagNames) {
+  public Page<Project> getAllProjectsByFilter(Set<String> vacantPlaceRoles,
+                                              Set<String> stages,
+                                              Set<String> tagNames,
+                                              Pageable pageable) {
     return repository.findAllByFilter(
-            vacantPlaceRoles, vacantPlaceRoles.isEmpty(),
-            stages, stages.isEmpty(),
-            tagNames, tagNames.isEmpty()).stream()
-        .map(projectEntity -> modelMapper.map(projectEntity, Project.class))
-        .collect(Collectors.toList());
+        tagNames, tagNames.isEmpty(),
+        stages, stages.isEmpty(),
+        vacantPlaceRoles, vacantPlaceRoles.isEmpty(),
+        pageable
+    ).map(projectEntity -> modelMapper.map(projectEntity,
+        Project.class));
   }
 
   public List<Project> getAllProjectsByOwnerId(UUID id) {
