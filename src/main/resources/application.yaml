@@ -22,3 +22,7 @@ spring:
       WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false
     deserialization:
       FAIL_ON_UNKNOWN_PROPERTIES: false
+
+security:
+  jwt-secret: baVxQ9MNwC3A2r8sW5xbdP96O/ncrM8NJZtghIKM6bEos+UsPFMhtybGCWWtEUbQMyR+5JJUsrN7qm1wnz5g0w==
+  jwt-expiration: 28800 # 480 minutes duration by default
