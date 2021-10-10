@@ -1,8 +1,9 @@
 language: java
 install: true
 
-jdk:
-  - oraclejdk8
+os: linux
+dist: trusty
+jdk: oraclejdk8
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
