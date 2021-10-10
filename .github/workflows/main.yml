@@ -25,20 +25,26 @@ jobs:
     runs-on: ubuntu-latest        
     
     steps:
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
       - name: build
         run: ./gradlew build
         
   checkstyle:
     runs-on: ubuntu-latest        
     
-    steps:      
+    steps:
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
       - name: checkstyle
         run: ./gradlew checkstyleMain checkstyleTest -i
         
   test:
     runs-on: ubuntu-latest        
     
-    steps:       
-      - name: test
-        run: ./gradlew test
+    steps:
+     - name: Change wrapper permissions
+       run: chmod +x ./gradlew
+     - name: test
+       run: ./gradlew test
 
