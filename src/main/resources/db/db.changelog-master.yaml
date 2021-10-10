@@ -35,3 +35,12 @@ databaseChangeLog:
             path: changelog/003_remove_not_null.sql
             enchoding: utf8
             relativeToChangelogFile: true
+  - changeSet:
+      runAlways: false
+      id: 20210909_004
+      author: Vasiliy Azarov
+      changes:
+        - sqlFile:
+            path: changelog/004_additional_project_fields.sql
+            enchoding: utf8
+            relativeToChangelogFile: true

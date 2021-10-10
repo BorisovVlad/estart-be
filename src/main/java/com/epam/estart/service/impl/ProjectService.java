@@ -61,6 +61,10 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
             () -> new IllegalArgumentException(String.format("Project with id=%s not found!", project.getId())));
 
     projectEntity.setName(project.getName())
+        .setEmail(project.getEmail())
+        .setPhone(project.getPhone())
+        .setImage(project.getImage())
+        .setLanguage(project.getLanguage())
         .setStage(project.getStage())
         .setAboutProject(projectEntity.getAboutProject())
         .setTags(getNewProjectTags(project, projectEntity))
