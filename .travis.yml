@@ -15,7 +15,7 @@ cache:
 
 branches:
   only:
-    - travis-yml_check
+    - main
 
 jobs:
   include:
