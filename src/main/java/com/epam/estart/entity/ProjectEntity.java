@@ -30,8 +30,7 @@ public class ProjectEntity implements AbstractEntity<UUID> {
   private String email;
   private String phone;
   private String image;
-  @Enumerated(EnumType.STRING)
-  private Language language;
+  private String language;
   @Enumerated(EnumType.STRING)
   private String aboutProject;
   @OneToMany(mappedBy = "projectId")

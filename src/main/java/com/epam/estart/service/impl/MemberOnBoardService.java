@@ -28,8 +28,6 @@ public class MemberOnBoardService
 
   public Set<MemberOnBoardEntity> createAllByProjectEntity(Project project) {
     Set<MemberOnBoardEntity> membersOnBoard = modelMapper.map(project, ProjectEntity.class).getMembersOnBoard();
-    // TODO: rework this, it's only quick fix
-    membersOnBoard = membersOnBoard == null ? new HashSet<>() : membersOnBoard;
     membersOnBoard.forEach(memberOnBoardEntity -> memberOnBoardEntity.setProjectId(project.getId()));
     repository.saveAll(membersOnBoard);
     return membersOnBoard;

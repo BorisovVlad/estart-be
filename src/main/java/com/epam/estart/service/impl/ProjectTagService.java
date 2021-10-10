@@ -27,8 +27,6 @@ public class ProjectTagService extends AbstractService<Long, ProjectTag, Project
 
   public Set<ProjectTagEntity> createAllByProjectEntity(Project project) {
     Set<ProjectTagEntity> tags = modelMapper.map(project, ProjectEntity.class).getTags();
-    // TODO: rework this, it's only quick fix
-    tags = tags == null ? new HashSet<>() : tags;
     tags.forEach(projectTagEntity -> projectTagEntity.setProjectId(project.getId()));
     repository.saveAll(tags);
     return tags;

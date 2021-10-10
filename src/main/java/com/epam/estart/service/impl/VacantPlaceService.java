@@ -29,8 +29,6 @@ public class VacantPlaceService
 
   public Set<VacantPlaceEntity> createAllByProjectEntity(Project project) {
     Set<VacantPlaceEntity> vacantPlaces = modelMapper.map(project, ProjectEntity.class).getVacantPlaces();
-    // TODO: rework this, it's only quick fix
-    vacantPlaces = vacantPlaces == null ? new HashSet<>() : vacantPlaces;
     vacantPlaces.forEach(vacantPlacesEntity -> vacantPlacesEntity.setProjectId(project.getId()));
     repository.saveAll(vacantPlaces);
     return vacantPlaces;

@@ -42,4 +42,9 @@ public class ProjectController {
                                               @RequestParam(defaultValue = "") Set<String> tagNames) {
     return projectService.getAllProjectsByFilter(vacantPlaces, stages, tagNames);
   }
+
+  @GetMapping("/owner/{ownerId}")
+  public List<Project> getAllProjectsByOwnerId(@PathVariable UUID ownerId) {
+    return projectService.getAllProjectsByOwnerId(ownerId);
+  }
 }
