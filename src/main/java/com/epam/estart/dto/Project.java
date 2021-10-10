@@ -1,5 +1,6 @@
 package com.epam.estart.dto;
 
+import com.epam.estart.entity.Language;
 import com.epam.estart.entity.Stage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.Instant;
@@ -15,6 +16,10 @@ public class Project implements AbstractDTO<UUID> {
   private UUID ownerId;
   private String name;
   private String stage;
+  private String email;
+  private String phone;
+  private String image;
+  private Language language;
   private String aboutProject;
   private Set<String> tags;
   private Set<String> vacantPlaces;
