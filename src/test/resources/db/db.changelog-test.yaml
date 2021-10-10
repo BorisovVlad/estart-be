@@ -44,3 +44,12 @@ databaseChangeLog:
             path: changelog-test/004_additional_project_fields.sql
             enchoding: utf8
             relativeToChangelogFile: true
+  - changeSet:
+      runAlways: false
+      id: 20210910_005
+      author: Vasiliy Azarov
+      changes:
+        - sqlFile:
+            path: changelog-test/005_add_stack_field.sql
+            enchoding: utf8
+            relativeToChangelogFile: true
