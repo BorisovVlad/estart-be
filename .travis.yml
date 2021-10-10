@@ -1,0 +1,29 @@
+language: java
+install: true
+
+jdk:
+  - oraclejdk8
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+branches:
+  only:
+    - travis-yml_check
+
+jobs:
+  include:
+    - stage: clean
+      script: ./gradlew clean
+    - stage: compile
+      script: ./gradlew build
+    - stage: checkstyle
+      script: ./gradlew checkstyleMain checkstyleTest -i
+    - stage: test
+      script: ./gradlew test
