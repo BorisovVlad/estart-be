@@ -69,7 +69,7 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
         .setLanguage(project.getLanguage())
         .setStage(project.getStage())
         .setStack(project.getStack())
-        .setAboutProject(projectEntity.getAboutProject())
+        .setAboutProject(project.getAboutProject())
         .setTags(getNewProjectTags(project, projectEntity))
         .setVacantPlaces(getNewVacantPlaces(project, projectEntity))
         .setMembersOnBoard(getNewMembersOnBoard(project, projectEntity));
