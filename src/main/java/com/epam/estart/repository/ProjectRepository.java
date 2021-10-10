@@ -22,7 +22,7 @@ public interface ProjectRepository extends AbstractRepository<ProjectEntity, UUI
       + "GROUP BY p.id "
       + "having (size(p.tags) >= :tagsSize) "
       + "and (size(p.vacantPlaces) >= :vacantPlacesSize ) "
-      + "order by p.createdAt")
+      + "order by p.createdAt desc")
   Page<ProjectEntity> findAllByFilter(Set<String> tagsName, boolean isTagPresent, int tagsSize,
                                       Set<String> stages, boolean isStagesPresent,
                                       Set<String> vacantPlaceRoles, boolean isVacantRolePresent, int vacantPlacesSize,
