@@ -8,7 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class JwtDto {
 
-  @JsonProperty("access-token")
+  @JsonProperty("accessToken")
   private String accessToken;
 
 }
