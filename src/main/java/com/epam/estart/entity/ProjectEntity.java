@@ -28,7 +28,9 @@ public class ProjectEntity implements AbstractEntity<UUID> {
   private String name;
   private String email;
   private String phone;
-  private byte[] image;
+  private String image;
+  @Enumerated(EnumType.STRING)
+  private Language language;
   @Enumerated(EnumType.STRING)
   private Stage stage;
   private String aboutProject;
