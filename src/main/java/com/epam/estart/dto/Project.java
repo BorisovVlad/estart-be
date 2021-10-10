@@ -1,6 +1,5 @@
 package com.epam.estart.dto;
 
-import com.epam.estart.entity.Stage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.Instant;
 import java.util.HashSet;
@@ -15,12 +14,11 @@ public class Project implements AbstractDTO<UUID> {
   private UUID id;
   private UUID ownerId;
   private String name;
-  private String stage;
   private String email;
   private String phone;
   private String image;
   private String language;
-  private Stage stage;
+  private String stage;
   private String aboutProject;
   private Set<String> tags = new HashSet<>();
   private Set<String> vacantPlaces = new HashSet<>();

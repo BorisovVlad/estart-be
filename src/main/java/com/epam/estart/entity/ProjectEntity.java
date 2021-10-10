@@ -5,8 +5,6 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -26,12 +24,11 @@ public class ProjectEntity implements AbstractEntity<UUID> {
   private UUID id;
   private UUID ownerId;
   private String name;
-  private String stage;
   private String email;
   private String phone;
   private String image;
   private String language;
-  @Enumerated(EnumType.STRING)
+  private String stage;
   private String aboutProject;
   @OneToMany(mappedBy = "projectId")
   private Set<ProjectTagEntity> tags;
