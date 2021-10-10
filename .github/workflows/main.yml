@@ -25,17 +25,23 @@ jobs:
     runs-on: ubuntu-latest        
     
     steps:
+      - uses: actions/checkout@v2
+      
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
+        
       - name: build
         run: ./gradlew build
         
   checkstyle:
     runs-on: ubuntu-latest        
     
-    steps:
+    steps:          
+      - uses: actions/checkout@v2
+      
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
+        
       - name: checkstyle
         run: ./gradlew checkstyleMain checkstyleTest -i
         
@@ -43,8 +49,11 @@ jobs:
     runs-on: ubuntu-latest        
     
     steps:
+     - uses: actions/checkout@v2
+
      - name: Change wrapper permissions
        run: chmod +x ./gradlew
+       
      - name: test
        run: ./gradlew test
 
