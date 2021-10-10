@@ -19,6 +19,7 @@ public class Project implements AbstractDTO<UUID> {
   private String image;
   private String language;
   private String stage;
+  private String stack;
   private String aboutProject;
   private Set<String> tags = new HashSet<>();
   private Set<String> vacantPlaces = new HashSet<>();
