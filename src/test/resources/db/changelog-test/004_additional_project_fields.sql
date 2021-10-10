@@ -1,5 +1,8 @@
 ALTER TABLE projects
-ADD COLUMN email text,
-ADD COLUMN phone text,
-ADD COLUMN image text,
-ADD COLUMN language text;
+ADD COLUMN email varchar(255);
+ALTER TABLE projects
+ADD COLUMN phone varchar(255);
+ALTER TABLE projects
+ADD COLUMN image varchar(255);
+ALTER TABLE projects
+ADD COLUMN language varchar(255);
