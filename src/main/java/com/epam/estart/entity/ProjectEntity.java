@@ -29,6 +29,7 @@ public class ProjectEntity implements AbstractEntity<UUID> {
   private String image;
   private String language;
   private String stage;
+  private String stack;
   private String aboutProject;
   @OneToMany(mappedBy = "projectId")
   private Set<ProjectTagEntity> tags;
