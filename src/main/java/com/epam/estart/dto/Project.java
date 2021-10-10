@@ -1,9 +1,9 @@
 package com.epam.estart.dto;
 
-import com.epam.estart.entity.Language;
 import com.epam.estart.entity.Stage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import lombok.Data;
@@ -18,12 +18,12 @@ public class Project implements AbstractDTO<UUID> {
   private String email;
   private String phone;
   private String image;
-  private Language language;
+  private String language;
   private Stage stage;
   private String aboutProject;
-  private Set<String> tags;
-  private Set<String> vacantPlaces;
-  private Set<String> membersOnBoard;
+  private Set<String> tags = new HashSet<>();
+  private Set<String> vacantPlaces = new HashSet<>();
+  private Set<String> membersOnBoard = new HashSet<>();
   @JsonIgnore
   private Instant createdAt;
 }

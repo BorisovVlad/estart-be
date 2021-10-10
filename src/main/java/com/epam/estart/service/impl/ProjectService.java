@@ -89,6 +89,12 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
         .collect(Collectors.toList());
   }
 
+  public List<Project> getAllProjectsByOwnerId(UUID id) {
+    return repository.getAllByOwnerId(id).stream()
+        .map(projectEntity -> modelMapper.map(projectEntity, Project.class))
+        .collect(Collectors.toList());
+  }
+
   private Set<ProjectTagEntity> getNewProjectTags(Project project, ProjectEntity projectEntity) {
     Set<ProjectTagEntity> oldProjectTags = projectEntity.getTags();
     Set<ProjectTagEntity> newProjectTags = project.getTags().stream()

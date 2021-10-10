@@ -21,4 +21,6 @@ public interface ProjectRepository extends AbstractRepository<ProjectEntity, UUI
   List<ProjectEntity> findAllByFilter(Set<String> vacantPlaces, boolean isVacantRolePresent,
                                       Set<String> stages, boolean isStagesPresent,
                                       Set<String> tags, boolean isTagPresent);
+
+  List<ProjectEntity> getAllByOwnerId(UUID ownerId);
 }
