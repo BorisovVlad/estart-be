@@ -26,8 +26,7 @@ public class ProjectEntity implements AbstractEntity<UUID> {
   private UUID id;
   private UUID ownerId;
   private String name;
-  @Enumerated(EnumType.STRING)
-  private Stage stage;
+  private String stage;
   private String aboutProject;
   @OneToMany(mappedBy = "projectId")
   private Set<ProjectTagEntity> tags;

@@ -4,6 +4,8 @@ import com.epam.estart.entity.ProjectEntity;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -11,14 +13,20 @@ import org.springframework.stereotype.Repository;
 public interface ProjectRepository extends AbstractRepository<ProjectEntity, UUID> {
   List<ProjectEntity> findAll();
 
-  @Query(value = "SELECT DISTINCT on (created_at) * FROM projects project "
-      + "JOIN project_tag tag on tag.project_id = project.id "
-      + "JOIN vacant_places vacant on vacant.project_id = project.id "
-      + "WHERE (tag.name in :tags or :isTagPresent ) "
-      + "AND (project.stage in :stages or :isStagesPresent ) "
-      + "AND (vacant.role in :vacantPlaces or :isVacantRolePresent ) "
-      + "ORDER BY created_at DESC;", nativeQuery = true)
-  List<ProjectEntity> findAllByFilter(Set<String> vacantPlaces, boolean isVacantRolePresent,
+  @Query("select p from ProjectEntity p " +
+      "left join p.tags tags on tags.projectId = p.id " +
+      "left join p.vacantPlaces vacantPlaces on vacantPlaces.projectId = p.id " +
+      "where (tags.name in :tagsName or :isTagPresent = true ) " +
+      "and (p.stage in :stages or :isStagesPresent = true ) " +
+      "and (vacantPlaces.role in :vacantPlaceRoles or :isVacantRolePresent = true ) " +
+      "and p.stage <> 'CLOSED' " +
+      "group by p.id" +
+      "having count(p.id) = :maxSize " +
+      "order by p.createdAt desc")
+  Page<ProjectEntity> findAllByFilter(Set<String> tagsName, boolean isTagPresent,
                                       Set<String> stages, boolean isStagesPresent,
-                                      Set<String> tags, boolean isTagPresent);
+                                      Set<String> vacantPlaceRoles, boolean isVacantRolePresent,
+                                      Pageable pageable);
+
+
 }
