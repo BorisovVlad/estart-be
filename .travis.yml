@@ -14,9 +14,9 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-branches:
-  only:
-    - main
+#branches:
+#  only:
+#    - main
 
 jobs:
   include:
