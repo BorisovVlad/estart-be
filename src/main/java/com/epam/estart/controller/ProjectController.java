@@ -5,6 +5,7 @@ import com.epam.estart.model.FilterOptions;
 import com.epam.estart.security.AuthorisedUser;
 import com.epam.estart.service.AuthenticationService;
 import com.epam.estart.service.impl.ProjectService;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -53,6 +54,7 @@ public class ProjectController {
 
   @PostMapping("/filter")
   public Page<Project> postFiltersAndGetResult(@RequestBody FilterOptions options) {
+    options.setStage(options.getStage().contains("") ? new HashSet<>() : options.getStage());
     return projectService.getAllProjectsByFilter(
         options.getVacantPlaces(),
         options.getStage(),
