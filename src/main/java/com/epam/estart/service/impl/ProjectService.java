@@ -72,7 +72,8 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
         .setAboutProject(projectEntity.getAboutProject())
         .setTags(getNewProjectTags(project, projectEntity))
         .setVacantPlaces(getNewVacantPlaces(project, projectEntity))
-        .setMembersOnBoard(getNewMembersOnBoard(project, projectEntity));
+        .setMembersOnBoard(getNewMembersOnBoard(project, projectEntity))
+        .setCreatedAt(dateSupplier.current());
 
     return modelMapper.map(repository.save(projectEntity), Project.class);
   }
