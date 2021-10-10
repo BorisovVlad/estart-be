@@ -6,6 +6,8 @@ import com.epam.estart.entity.ProjectEntity;
 import com.epam.estart.entity.ProjectTagEntity;
 import com.epam.estart.entity.VacantPlaceEntity;
 import com.epam.estart.repository.ProjectRepository;
+import com.epam.estart.security.AuthorisedUser;
+import com.epam.estart.service.AuthenticationService;
 import com.epam.estart.service.DateSupplier;
 import java.util.List;
 import java.util.Set;
@@ -20,18 +22,21 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
   private final ProjectTagService projectTagService;
   private final VacantPlaceService vacantPlacesService;
   private final MemberOnBoardService memberOnBoardService;
+  private final AuthenticationService authenticationService;
   private final DateSupplier dateSupplier;
 
 
   ProjectService(ProjectRepository repository, ProjectTagService projectTagService,
                  VacantPlaceService vacantPlacesService,
                  MemberOnBoardService memberOnBoardService,
-                 DateSupplier dateSupplier) {
+                 DateSupplier dateSupplier,
+                 AuthenticationService authenticationService) {
     super(repository);
     this.projectTagService = projectTagService;
     this.vacantPlacesService = vacantPlacesService;
     this.memberOnBoardService = memberOnBoardService;
     this.dateSupplier = dateSupplier;
+    this.authenticationService = authenticationService;
   }
 
   @Override
@@ -46,8 +51,10 @@ public class ProjectService extends AbstractService<UUID, Project, ProjectEntity
 
   @Override
   public Project create(Project project) {
+    AuthorisedUser authenticatedUser = authenticationService.getAuthenticatedUser();
     ProjectEntity projectEntity = modelMapper.map(project, ProjectEntity.class)
-        .setCreatedAt(dateSupplier.current());
+        .setCreatedAt(dateSupplier.current())
+        .setOwnerId(authenticatedUser.getId());
     projectEntity = repository.save(projectEntity);
     projectEntity.setTags(projectTagService.createAllByProjectEntity(project.setId(projectEntity.getId())))
         .setVacantPlaces(vacantPlacesService.createAllByProjectEntity(project.setId(projectEntity.getId())))
