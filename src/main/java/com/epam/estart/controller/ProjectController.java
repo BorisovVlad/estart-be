@@ -5,11 +5,6 @@ import com.epam.estart.model.FilterOptions;
 import com.epam.estart.security.AuthorisedUser;
 import com.epam.estart.service.AuthenticationService;
 import com.epam.estart.service.impl.ProjectService;
-import com.epam.estart.util.FileUtil;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/projects")
@@ -56,32 +50,6 @@ public class ProjectController {
                                               @RequestParam(defaultValue = "") Set<String> stages,
                                               @RequestParam(defaultValue = "") Set<String> tags) {
     return projectService.getAllProjectsByFilter(vacantPlaces, stages, tags, pageable);
-  }
-
-  @PostMapping("/images")
-  public String saveImage(@RequestParam("file") MultipartFile file) {
-    String url = null;
-    try {
-      url = copyFile(file);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return url;
-  }
-
-  private String copyFile(MultipartFile file) throws Exception {
-    String url = null;
-    //That's because TinyMCE renames the file. The uploaded file name will look like this: blobid1598626219760.jpg.
-    String fileName = file.getOriginalFilename();
-    try (InputStream is = file.getInputStream()) {
-      Path path = FileUtil.getImagePath(fileName);
-      Files.copy(is, path);
-      url = FileUtil.getImageUrl(fileName);
-    } catch (IOException ie) {
-      ie.printStackTrace();
-      throw new Exception("Failed to upload!");
-    }
-    return url;
   }
 
   @PostMapping("/filter")
